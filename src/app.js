@@ -272,9 +272,12 @@ import technologyMarkup from './data/technologies.html?raw';
     document.querySelector('#detail-title').textContent=project.title;
     document.querySelector('#detail-description').textContent=project.description;
     document.querySelector('#detail-stack').replaceChildren(...project.stack.map(name=>{const badge=document.createElement('span');badge.textContent=name;return badge}));
-    document.querySelector('#detail-repo').href=project.url;detail.showModal();
+    document.querySelector('#detail-repo').href=project.url;
+    const image=document.querySelector('#detail-image');image.src=project.preview||new URL('images/project-preview.png',new URL(import.meta.env.BASE_URL,document.baseURI)).href;
+    carousels?.resetInteraction();detail.showModal();
   }
   document.querySelector('#close-detail').onclick=()=>detail.close();
+  detail.addEventListener('close',()=>carousels?.resetInteraction());
   detail.addEventListener('click',event=>{if(event.target===detail){const r=detail.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)detail.close()}});
   document.querySelector('#back').onclick=back;
   start.onclick=begin;

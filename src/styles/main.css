@@ -113,3 +113,16 @@ html,body{transition:background-color .5s ease,color .5s ease}html[data-motion=o
 @keyframes stack-white-wave{0%,100%{opacity:0}50%{opacity:.82}}
 @media(max-width:1050px){.stack-mosaic{columns:2}}
 @media(max-width:600px){.stack-mosaic{columns:1}.stack-mosaic .stack-category{padding:18px}.stack-mosaic .tech-mark{width:42px;height:42px}}
+
+.globe-card{cursor:pointer}
+#project-detail{--panel:min(360px,44vw,57vh);position:fixed;width:calc(var(--panel)*2);height:calc(var(--panel)*4/3);max-width:94vw;max-height:88vh;padding:0;overflow:hidden;animation:project-modal-unfold .85s cubic-bezier(.22,.7,.25,1) both}
+#project-detail[open]{display:flex}#project-detail #close-detail{z-index:4;right:12px;top:8px;width:32px;height:32px;border-radius:50%;background:var(--paper)}
+.project-modal-image{position:relative;z-index:2;flex:0 0 var(--panel);height:100%;padding:18px;background:var(--paper);animation:project-preview-in .3s ease-out both}
+.project-modal-image img{display:block;width:100%;height:100%;object-fit:cover;border:1px solid var(--line)}
+.project-modal-content{position:relative;z-index:1;flex:0 0 var(--panel);height:100%;padding:42px 26px 26px;overflow-y:auto;animation:project-details-slide .6s cubic-bezier(.22,.7,.25,1) .25s both}
+#project-detail h2{font-size:clamp(22px,2.8vw,34px);margin:14px 0 18px}#project-detail #detail-description{font-size:14px;line-height:1.65}#project-detail .badges{margin:20px 0;gap:6px}
+@keyframes project-preview-in{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+@keyframes project-modal-unfold{0%,24%{width:var(--panel)}100%{width:calc(var(--panel)*2)}}
+@keyframes project-details-slide{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@media(max-width:600px){#project-detail{--panel:44vw}.project-modal-image{padding:8px}.project-modal-content{padding:36px 12px 14px}#project-detail h2{font-size:19px}#project-detail #detail-description{font-size:12px}#project-detail .badges span{font-size:8px;padding:4px}#detail-repo{font-size:11px}}
+html[data-motion=off] #project-detail,html[data-motion=off] .project-modal-image,html[data-motion=off] .project-modal-content{animation:none}

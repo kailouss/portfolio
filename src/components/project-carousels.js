@@ -11,8 +11,7 @@
         const card=document.createElement('article');card.className='globe-card';card.dataset.project=index;card.dataset.copy=copy;
         card.innerHTML=`<button class="globe-card-open" aria-label="View ${project.title}"><span class="meta">${project.role.toLowerCase()}</span><strong>${project.mark}</strong></button><div class="globe-card-copy"><h3>${project.title}</h3><div class="globe-card-details" inert><p>${project.description}</p><div class="badges">${project.stack.slice(0,3).map(name=>`<span>${name}</span>`).join('')}</div><div class="globe-card-actions"><button>Details ↗</button><a href="${project.url}" target="_blank" rel="noopener noreferrer">Repository ↗</a></div></div></div>`;
         if(copy!==2){card.setAttribute('aria-hidden','true');card.querySelectorAll('button,a').forEach(control=>control.tabIndex=-1)}
-        card.querySelector('.globe-card-open').onclick=()=>options.openProject(project);
-        card.querySelector('.globe-card-actions button').onclick=()=>options.openProject(project);
+        card.addEventListener('click',event=>{if(event.target.closest('a'))return;options.openProject(project)});
         card.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'&&track.dataset.entranceState==='complete'&&!keyboardExpanded){expand(card)}});
         card.addEventListener('pointerleave',()=>{if(expanded===card&&!keyboardExpanded)collapse()});
         card.addEventListener('focusin',()=>{focused=true;expand(card);keyboardExpanded=!card.matches(':hover')});
@@ -34,7 +33,7 @@
         track.scrollLeft=start;offset=null;status();
       }
       function expand(card){
-        if(expanded===card)return;
+        if(options.dialogOpen()||expanded===card)return;
         collapse(true);clearTimeout(closeTimer);clearTimeout(finishTimer);
         const center=card.offsetLeft-track.scrollLeft+card.offsetWidth/2;
         anchor={card,center,currentCenter:center,start:performance.now()};expanded=card;speed=0;offset=null;target=null;
@@ -130,9 +129,10 @@
         track.dataset.entranceState=options.motion()?'pending':'complete';track.inert=options.motion();
         if(options.motion())observer.observe(track);
       }
-      return {step,refresh:status,layout,replay,dispose(){disposed=true;observer.disconnect();clearTimeout(entryTimer);clearTimeout(closeTimer);clearTimeout(finishTimer);window.removeEventListener('resize',resize)}};
+      function resetInteraction(){collapse(true);hovered=false;focused=false;keyboardExpanded=false;speed=0;target=null;hold=performance.now()+850;if(section.contains(document.activeElement))track.focus({preventScroll:true});focused=false}
+      return {step,refresh:status,layout,replay,resetInteraction,dispose(){disposed=true;observer.disconnect();clearTimeout(entryTimer);clearTimeout(closeTimer);clearTimeout(finishTimer);window.removeEventListener('resize',resize)}};
     });
-    return {step:(dt,time)=>controllers.forEach(controller=>controller.step(dt,time)),refresh:()=>controllers.forEach(controller=>controller.refresh()),layout:()=>controllers.forEach(controller=>controller.layout()),replay:()=>controllers.forEach(controller=>controller.replay()),dispose:()=>controllers.forEach(controller=>controller.dispose())};
+    return {resetInteraction:()=>controllers.forEach(controller=>controller.resetInteraction()),step:(dt,time)=>controllers.forEach(controller=>controller.step(dt,time)),refresh:()=>controllers.forEach(controller=>controller.refresh()),layout:()=>controllers.forEach(controller=>controller.layout()),replay:()=>controllers.forEach(controller=>controller.replay()),dispose:()=>controllers.forEach(controller=>controller.dispose())};
   }
   window.GlobeProjectCarousels={mount};
 })();
