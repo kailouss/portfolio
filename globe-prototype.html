@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" data-view="opening"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Connected — Globe portfolio prototype</title><link rel="stylesheet" href="globe-prototype.css?v=7"></head>
+<body>
+<canvas id="celestial-sky" aria-hidden="true"></canvas><canvas id="universe" aria-hidden="true"></canvas>
+<button id="start" aria-label="Enter the globe portfolio"><span>press anywhere to start</span><small>or press enter</small></button>
+<div id="orbit-ui" hidden><div class="orbit-heading"><p class="meta">a connected portfolio</p><h1>Follow a connection.</h1><p>Every idea leads somewhere.</p></div><p class="orbit-drag-hint">drag to turn · follow a connection</p><svg id="branches" aria-hidden="true"></svg><nav id="globe-navigation" aria-label="Explore the globe"></nav></div>
+<header id="scene-controls"><button id="back">← Back</button><span id="scene-label" class="meta">connected portfolio</span><button id="motion" aria-pressed="true" aria-label="Pause motion"></button><button id="theme" aria-label="Switch to light mode"></button></header>
+<nav id="globe-section-rail" class="globe-section-rail" aria-label="Section navigation" hidden><svg viewBox="0 0 44 264" aria-hidden="true"><polyline points="22,22 28,66 22,110 28,154 22,198 28,242"/></svg><button data-section="home" aria-label="Globe"><i></i><span>Globe</span></button><button data-section="projects" aria-label="Projects"><i></i><span>Projects</span></button><button data-section="about" aria-label="About"><i></i><span>About</span></button><button data-section="stack" aria-label="Tech stack"><i></i><span>Tech stack</span></button><button data-section="process" aria-label="Process"><i></i><span>Process</span></button><button data-section="contact" aria-label="Contact"><i></i><span>Contact</span></button></nav>
+<main id="section-view" hidden tabindex="-1"><div class="view-heading"><p id="view-eyebrow" class="meta"></p><h1 id="view-title"></h1><p id="view-intro"></p></div><div id="view-content"></div></main>
+<div id="scene-status" class="sr-only" role="status" aria-live="polite"></div>
+<a id="compare" href="/?v=neural-nav-26">↗ Original portfolio</a>
+<dialog id="project-detail" aria-labelledby="detail-title"><button id="close-detail" aria-label="Close project details">×</button><p id="detail-role" class="meta"></p><h2 id="detail-title"></h2><p id="detail-description"></p><div id="detail-stack" class="badges"></div><a id="detail-repo" target="_blank" rel="noopener noreferrer">View repository ↗</a></dialog>
+<script src="projects.js"></script><script src="globe-math.js"></script><script src="globe-space.js?v=3"></script><script src="globe-carousels.js?v=5"></script><script src="globe-effects.js?v=7"></script><script src="globe-label-layout.js?v=8"></script><script src="globe-prototype.js?v=8"></script>
+</body></html>
+
+
+
+
+
+
+
+

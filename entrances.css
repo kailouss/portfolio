@@ -1,0 +1,20 @@
+[data-entrance]{--entrance-x:0px;--entrance-y:0px;--entrance-scale:1}
+[data-entrance=left]{--entrance-x:-30px}
+[data-entrance=right]{--entrance-x:30px}
+[data-entrance=down]{--entrance-y:-18px}
+[data-entrance=up]{--entrance-y:22px}
+[data-entrance=scale]{--entrance-scale:.86}
+.entrance-pending{opacity:0}
+.entrance-playing{animation:portfolio-enter .65s cubic-bezier(.22,.61,.36,1) var(--entrance-delay,0s) both}
+@keyframes portfolio-enter{
+  from{opacity:0;translate:var(--entrance-x) var(--entrance-y);scale:var(--entrance-scale)}
+  to{opacity:1;translate:0 0;scale:1}
+}
+html[data-motion=off] .entrance-pending{opacity:1}
+.projects:is([data-entrance-state=pending],[data-entrance-state=running]) .project{visibility:hidden}
+.projects[data-entrance-state=running] .project.card-entering{visibility:visible;animation:card-enter .65s cubic-bezier(.22,.61,.36,1) var(--entrance-delay) both}
+.card-title-entering{animation:card-title-enter .45s ease-out calc(var(--entrance-delay) + .2s) both}
+@keyframes card-enter{from{opacity:0;translate:var(--card-enter-x) 0}to{opacity:1;translate:0 0}}
+@keyframes card-title-enter{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+@media(prefers-reduced-motion:reduce){html:not([data-motion=on]) .entrance-pending{opacity:1}html:not([data-motion=on]) .entrance-playing{animation:none!important}}
+
