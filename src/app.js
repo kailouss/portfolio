@@ -25,7 +25,7 @@ import technologyMarkup from './data/technologies.html?raw';
   const sectionIds = ['projects', 'about', 'stack', 'process', 'contact'];
   const projects = window.PortfolioProjectGroups.flatMap(group => group.projects);
   const project=point=>space.project(point,camera,width,height);
-  const sectionAnchors=[[-.7,.3,.74],[.65,.35,.76],[-.72,-.15,.72],[.7,-.3,.73],[.05,-.72,.7]].map(([x,y,z])=>space.normalize({x,y,z}));
+  const sectionAnchors=[[-.6,.64,.74],[.65,.22,.76],[-.72,-.15,.72],[.7,-.3,.73],[.05,-.72,.7]].map(([x,y,z])=>space.normalize({x,y,z}));
   const points = Array.from({length: 1050}, (_, i) => {
     const y = 1 - 2 * (i + .5) / 1050, r = Math.sqrt(1 - y * y), t = i * Math.PI * (3 - Math.sqrt(5));
     return {x: Math.cos(t) * r, y, z: Math.sin(t) * r};
@@ -103,7 +103,7 @@ import technologyMarkup from './data/technologies.html?raw';
       if(front)group.removeAttribute('mask');else group.setAttribute('mask','url(#rear-branch-mask)');
       if(front&&!wasFront&&state==='orbit')effects.scramble(button.querySelector('.branch-name'));
       const labelBounds=button.getBoundingClientRect(),labelHeight=labelBounds.height;
-      labels.push({branch,origin,middle,tip,x:(middle.x+tip.x)/2,y:(middle.y+tip.y)/2-10-labelHeight/2,width:labelBounds.width,height:labelHeight,order:i,motion:branch.labelMotion});
+      labels.push({branch,origin,middle,tip,x:(middle.x+tip.x)/2,y:(middle.y+tip.y)/2-10-labelHeight/2,width:labelBounds.width,height:labelHeight,order:i,side:((middle.x+tip.x)/2<width/2?-1:1),motion:branch.labelMotion});
     });
     window.GlobeLabelLayout.step(labels,elapsed,{top:78,bottom:height-78},motion);
     labels.forEach(label=>{
@@ -208,10 +208,25 @@ import technologyMarkup from './data/technologies.html?raw';
     }else if(id==='about'){
       content.innerHTML='<div class="reading-surface"><div><h2>A designer who builds.<br>A developer who cares.</h2><p class="meta" style="margin-top:28px">web · mobile · creative development</p></div><div><p>I work between the first sketch and the final interaction.</p><p>I bring design and development together to build useful web and mobile experiences, practical tools, and playful experiments.</p><p>My projects span community websites, mobile workspaces, security tools, games, and infrastructure.</p><a href="https://github.com/kailouss" target="_blank" rel="noopener noreferrer">Explore my GitHub ↗</a></div></div>';
     }else if(id==='stack'){
-      const grid=document.createElement('ul');grid.className='globe-stack';content.append(grid);
       Promise.resolve(technologyMarkup.replaceAll('__BASE__', new URL(import.meta.env.BASE_URL, document.baseURI).href)).then(html=>{
         const source=new DOMParser().parseFromString(html,'text/html');
-        source.querySelectorAll('li').forEach(item=>{item.style.setProperty('--offset',((Math.random()-.5)*38).toFixed(1)+'px');grid.append(item)});
+        const groups=[
+          ['Front-end',['front-end','styling']],
+          ['Languages',['language']],
+          ['Back-end & data',['runtime','back-end','data']],
+          ['Infrastructure & delivery',['infrastructure','automation','version control']],
+          ['Development tools',['build tooling','testing','package management','editor']],
+          ['Design & collaboration',['design','game development','collaboration']]
+        ];
+        for(const [name,roles] of groups){
+          const items=[...source.querySelectorAll('li')].filter(item=>roles.includes(item.querySelector('p').textContent));
+          if(!items.length)continue;
+          const section=document.createElement('section');section.className='stack-category';
+          const heading=document.createElement('h2');heading.className='meta';heading.textContent=name;
+          const grid=document.createElement('ul');grid.className='globe-stack';grid.setAttribute('aria-label',name);
+          for(const item of items){item.style.setProperty('--offset',((Math.random()-.5)*24).toFixed(1)+'px');grid.append(item)}
+          section.append(heading,grid);content.append(section);
+        }
         if(currentSection==='stack'&&state==='section')animateLogos(entranceRuns);
       });
     }else if(id==='process'){

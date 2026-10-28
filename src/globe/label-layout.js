@@ -1,8 +1,8 @@
 (function(scope){
   const gap=20;
   function step(labels,elapsed,bounds,animate=true){
-    const ordered=[...labels].sort((a,b)=>(a.motion?.y??a.y)-(b.motion?.y??b.y)||a.order-b.order);
-    const overlaps=(a,b)=>Math.abs(a.x-b.x)<(a.width+b.width)/2+8;
+    const ordered=[...labels].sort((a,b)=>a.order-b.order);
+    const overlaps=(a,b)=>a.side===b.side||Math.abs(a.x-b.x)<(a.width+b.width)/2+8;
     const clamp=(value,label)=>Math.max(bounds.top+label.height/2,Math.min(bounds.bottom-label.height/2,value));
     const targets=new Map(ordered.map(label=>[label,clamp(label.y,label)]));
     function separate(read,write,impulse=false){
@@ -10,7 +10,7 @@
         let largest=0;
         for(let i=0;i<ordered.length;i++)for(let j=i+1;j<ordered.length;j++){
           const a=ordered[i],b=ordered[j];if(!overlaps(a,b))continue;
-          const penetration=(a.height+b.height)/2+gap-(read(b)-read(a));
+          const penetration=(a.height+b.height)/2+gap+24-(read(b)-read(a));
           if(penetration<=.001)continue;
           largest=Math.max(largest,penetration);
           const push=penetration/2;
