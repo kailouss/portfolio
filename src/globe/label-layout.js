@@ -41,5 +41,6 @@
     return labels;
   }
   const api={step,gap};
-  if(typeof module!=='undefined'&&module.exports)module.exports=api;else scope.GlobeLabelLayout=api;
+  scope.GlobeLabelLayout=api;
 })(typeof window==='undefined'?globalThis:window);
+

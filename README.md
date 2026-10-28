@@ -1,21 +1,28 @@
 # Connected portfolio
 
-The default website is the latest interactive globe portfolio, including draggable globe navigation, connected neural lines, project carousels, theme switching, and spring-spaced section labels.
+The latest globe portfolio, built with Vite and vanilla JavaScript.
 
 ## Run locally
 
-Requires Node.js. No package installation is needed.
+Use Node.js 22.12+ or 24+.
 
 ```sh
-node server.cjs
+npm install
+npm run dev
 ```
 
-Open http://127.0.0.1:4173/ to see the latest globe website.
+Open http://127.0.0.1:5173/. For a production build, run `npm run build`, then `npm run preview`.
 
-- `index.html`: latest globe website (default entry point).
-- `globe-prototype.html`: alternate entry point for the same globe website.
-- `scrolling-portfolio.html`: earlier scrolling design, retained for comparison.
+## Structure
 
-The globe JavaScript and styles live in the `globe-*.js` files and `globe-prototype.css`. Project information is in `projects.js`, and technology logos are in `assets/logos/`.
+- `src/main.js`: Vite entry point.
+- `src/app.js`: globe scene and section navigation.
+- `src/globe/`: camera math, effects, and label layout.
+- `src/components/`: project carousels.
+- `src/data/`: project information and 28 technologies.
+- `src/styles/`: site styles.
+- `public/logos/`: technology logos.
+- `docs/`: reference notes and preview images.
+- `archive/scrolling/`: earlier comparison files; excluded from the production build.
 
-Some identity, biography, and contact text remains sample content. See `project-sources.md` for project references.
+Only the latest globe website is built for production. Some biography and contact text remains sample content. Project references are in `docs/project-sources.md`.

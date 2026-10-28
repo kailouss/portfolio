@@ -14,5 +14,6 @@ const groups=[
 {title:'Terraform + Docker Demo',mark:'TF / DK',repo:'kailouss/terraform-docker-premade-demo',description:'An infrastructure-as-code demo that provisions an Nginx Docker container and serves a static HTML site.',stack:['Terraform','Docker','Nginx','HTML'],verified:true}
 ]}];
 for(const group of groups)for(const project of group.projects){project.role=group.role;project.url='https://github.com/'+project.repo;project.notes=project.verified?'Description and technologies checked against the repository README and source files.':'Repository details are not publicly accessible at the supplied URL. The link and project category are provided by the portfolio owner.'}
-if(typeof module!=='undefined'&&module.exports)module.exports=groups;else scope.PortfolioProjectGroups=groups;
+scope.PortfolioProjectGroups=groups;
 })(typeof window!=='undefined'?window:globalThis);
+
