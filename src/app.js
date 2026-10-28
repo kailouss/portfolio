@@ -200,7 +200,7 @@ import technologyMarkup from './data/technologies.html?raw';
   }
   function buildSection(id) {
     carousels?.dispose();carousels=null;
-    const content=document.querySelector('#view-content');content.replaceChildren();
+    const content=document.querySelector('#view-content');content.replaceChildren();content.classList.toggle('stack-mosaic',id==='stack');
     const titles={projects:['01 / selected work','Ideas made real.','Nine projects. Shared efforts and independent explorations. Pick a screen to look closer.'],about:['02 / about','Design meets development.','The person behind the connections.'],stack:['03 / technologies','Tools, connected.','A collection of the technologies behind the work.'],process:['04 / process','From question to craft.','How a useful idea becomes something people can use.'],contact:['05 / contact','Start a connection.','Good work begins with a conversation.']};
     const [eyebrow,title,intro]=titles[id];document.querySelector('#view-eyebrow').textContent=eyebrow;document.querySelector('#view-title').textContent=title;document.querySelector('#view-intro').textContent=intro;
     if(id==='projects'){
@@ -223,7 +223,7 @@ import technologyMarkup from './data/technologies.html?raw';
         for(const [name,roles] of groups){
           const items=[...source.querySelectorAll('li')].filter(item=>roles.includes(item.querySelector('p').textContent));
           if(!items.length)continue;
-          const section=document.createElement('section');section.className='stack-category';
+          const section=document.createElement('section');section.className='stack-category';section.dataset.category=name;
           const heading=document.createElement('h2');heading.className='meta';heading.textContent=name;
           const grid=document.createElement('ul');grid.className='globe-stack';grid.setAttribute('aria-label',name);
           for(const item of items){item.style.setProperty('--offset',((Math.random()-.5)*24).toFixed(1)+'px');grid.append(item)}
@@ -244,9 +244,16 @@ import technologyMarkup from './data/technologies.html?raw';
     element.addEventListener('animationend',()=>element.classList.remove('scene-entrance'),{once:true});
   }
   function animateLogos(enabled){
-    const columns=width<700?4:7;
-    document.querySelectorAll('.globe-stack li').forEach((logo,i)=>{
-      for(const child of logo.children)entrance(child,'scale',Math.floor(i/columns)*.15,enabled);
+    const container=document.querySelector('.stack-mosaic');
+    if(!container)return;
+    const bounds=container.getBoundingClientRect();
+    container.querySelectorAll('.globe-stack li').forEach(logo=>{
+      const rect=logo.getBoundingClientRect();
+      const delay=((rect.left-bounds.left)/Math.max(1,bounds.width)+(rect.top-bounds.top)/Math.max(1,bounds.height))*.6;
+      logo.classList.remove('stack-wave');
+      logo.style.setProperty('--wave-delay',delay+'s');
+      if(enabled){void logo.offsetWidth;logo.classList.add('stack-wave')}
+      for(const child of logo.children)entrance(child,'scale',delay,enabled);
     });
   }
   function animateSection(id,enabled){
