@@ -8,10 +8,7 @@ import technologyMarkup from './data/technologies.html?raw';
   const orbitUI = document.querySelector('#orbit-ui'), branchSVG = document.querySelector('#branches');
   const navigation = document.querySelector('#globe-navigation'), sectionView = document.querySelector('#section-view');
   const controls = document.querySelector('#scene-controls'), status = document.querySelector('#scene-status');
-  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  let storedMotion = null;
-  try { storedMotion = localStorage.getItem('portfolio-motion'); } catch {}
-  let motion = storedMotion === 'on' || (storedMotion !== 'off' && !reducedMotion.matches), state = 'opening', width = innerWidth, height = innerHeight;
+  let motion = true, state = 'opening', width = innerWidth, height = innerHeight;
   let angle = .4, pitch=0, currentSection = '', lastTime = 0,rotationDrag=null,resumeRotationAt=0,orientationFlight=null,pendingSection=null,carousels=null;
   const orient=point=>{
     const p=space.rotate(point,angle),c=Math.cos(pitch),s=Math.sin(pitch);
@@ -262,7 +259,7 @@ import technologyMarkup from './data/technologies.html?raw';
     else if(event.key==='Escape'&&!detail.open&&state!=='opening'){event.preventDefault();back()}
   });
   function reflectMotion(){const button=document.querySelector('#motion');button.innerHTML=effects.playIcon(motion);button.setAttribute('aria-label',motion?'Pause motion':'Play motion');button.title=motion?'Pause motion':'Play motion';button.setAttribute('aria-pressed',String(motion));root.dataset.motion=motion?'on':'off';carousels?.refresh()}
-  document.querySelector('#motion').onclick=()=>{motion=!motion;try{localStorage.setItem('portfolio-motion',motion?'on':'off')}catch{}reflectMotion()};reflectMotion();
+  document.querySelector('#motion').onclick=()=>{motion=!motion;reflectMotion()};reflectMotion();
   function reflectTheme(){
     root.dataset.theme=paper?'paper':'night';const button=document.querySelector('#theme');button.innerHTML=effects.themeIcon(paper);button.setAttribute('aria-label',paper?'Switch to dark mode':'Switch to light mode');button.title=paper?'Switch to dark mode':'Switch to light mode';
   }
@@ -417,6 +414,7 @@ import technologyMarkup from './data/technologies.html?raw';
   }
   requestAnimationFrame(draw);
 })();
+
 
 
 
