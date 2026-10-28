@@ -209,7 +209,7 @@ import technologyMarkup from './data/technologies.html?raw';
       content.innerHTML='<div class="reading-surface"><div><h2>A designer who builds.<br>A developer who cares.</h2><p class="meta" style="margin-top:28px">web · mobile · creative development</p></div><div><p>I work between the first sketch and the final interaction.</p><p>I bring design and development together to build useful web and mobile experiences, practical tools, and playful experiments.</p><p>My projects span community websites, mobile workspaces, security tools, games, and infrastructure.</p><a href="https://github.com/kailouss" target="_blank" rel="noopener noreferrer">Explore my GitHub ↗</a></div></div>';
     }else if(id==='stack'){
       const grid=document.createElement('ul');grid.className='globe-stack';content.append(grid);
-      Promise.resolve(technologyMarkup.replaceAll('__BASE__', import.meta.env.BASE_URL)).then(html=>{
+      Promise.resolve(technologyMarkup.replaceAll('__BASE__', new URL(import.meta.env.BASE_URL, document.baseURI).href)).then(html=>{
         const source=new DOMParser().parseFromString(html,'text/html');
         source.querySelectorAll('li').forEach(item=>{item.style.setProperty('--offset',((Math.random()-.5)*38).toFixed(1)+'px');grid.append(item)});
         if(currentSection==='stack'&&state==='section')animateLogos(entranceRuns);
@@ -414,6 +414,7 @@ import technologyMarkup from './data/technologies.html?raw';
   }
   requestAnimationFrame(draw);
 })();
+
 
 
 
