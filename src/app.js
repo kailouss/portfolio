@@ -262,7 +262,7 @@ import technologyMarkup from './data/technologies.html?raw';
     else if(event.key==='Escape'&&!detail.open&&state!=='opening'){event.preventDefault();back()}
   });
   function reflectMotion(){const button=document.querySelector('#motion');button.innerHTML=effects.playIcon(motion);button.setAttribute('aria-label',motion?'Pause motion':'Play motion');button.title=motion?'Pause motion':'Play motion';button.setAttribute('aria-pressed',String(motion));root.dataset.motion=motion?'on':'off';carousels?.refresh()}
-  document.querySelector('#motion').onclick=()=>{motion=!motion;reflectMotion()};reflectMotion();
+  document.querySelector('#motion').onclick=()=>{motion=!motion;try{localStorage.setItem('portfolio-motion',motion?'on':'off')}catch{}reflectMotion()};reflectMotion();
   function reflectTheme(){
     root.dataset.theme=paper?'paper':'night';const button=document.querySelector('#theme');button.innerHTML=effects.themeIcon(paper);button.setAttribute('aria-label',paper?'Switch to dark mode':'Switch to light mode');button.title=paper?'Switch to dark mode':'Switch to light mode';
   }
@@ -417,6 +417,7 @@ import technologyMarkup from './data/technologies.html?raw';
   }
   requestAnimationFrame(draw);
 })();
+
 
 
 
