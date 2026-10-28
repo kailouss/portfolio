@@ -213,9 +213,11 @@ import technologyMarkup from './data/technologies.html?raw';
         const groups=[
           ['Front-end',['front-end','styling']],
           ['Languages',['language']],
+          ['3D & graphics',['3d graphics']],
           ['Back-end & data',['runtime','back-end','data']],
           ['Infrastructure & delivery',['infrastructure','automation','version control']],
-          ['Development tools',['build tooling','testing','package management','editor']],
+          ['Development tools',['build tooling','testing','package management','editor','validation']],
+          ['Monitoring & analytics',['observability']],
           ['Design & collaboration',['design','game development','collaboration']]
         ];
         for(const [name,roles] of groups){
